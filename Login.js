@@ -59,9 +59,6 @@ driver.getTitle().then(function(title){
                     fs.appendFile(Atom.log,tday +"\nUser: " +Atom.user +"\nLogin was successful\n");
                 }else{ fs.appendFile(Atom.log, "User Role Not Set"); }
             });
-        }).addErrback(function(e) {
-            // |e| could be any error thrown inside the driver.call(function) block)
-            fs.appendFile(Atom.log, "\nROLE ELEMENT NOT FOUND\n" /* +e.stack */);
         });
 
         driver.quit();

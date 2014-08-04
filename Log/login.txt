@@ -1,3 +1,0 @@
-Fri Jul 25 2014 08:00:41 GMT+0100 (WAT)
-User: Role: Admin
-Login was successful
