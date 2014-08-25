@@ -1,8 +1,0 @@
-Thu Jul 24 2014 11:55:17 GMT+0100 (WAT)
-Role: Admin
-
-AVAILABLE MENUS:
-
-DCOM ELEMENT NOT FOUND
-Pickup OrderManager
-Swat OrderManager

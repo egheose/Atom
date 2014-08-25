@@ -1,0 +1,22 @@
+{
+    "name": "tests",
+    "version": "0.0.0",
+    "description": "",
+    "main": "index.js",
+    "directories": "./lib",
+    "scripts": {
+        "test": "mocha --recursive Scripts -R  xunit"
+    },
+    "keywords": [
+        "mocha",
+        "jenkins",
+        "reporter"
+    ],
+    "dependencies": {
+        "mocha": ">=1.3.0",
+        "diff": "1.0.7",
+        "mocha-jenkins-reporter": "0.1.0"
+    },
+    "author": "",
+    "license": "ISC"
+}
