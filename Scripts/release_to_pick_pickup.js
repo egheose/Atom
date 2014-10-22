@@ -9,12 +9,11 @@
  * Created By Obodeh Samuel
  */
 
-//Array holds url, page title,Logged in user,Menu & Log output file
+//Array holds url, page title & Logged in user.
 var Atom =
 {
     url:'http://dev.atom.igbimo.com/user/login',
     pTitle: 'Atom Web',
-    //log:'Log/log.txt',
     user:''
 };
 
@@ -27,15 +26,17 @@ var webdriver = require('selenium-webdriver');
 var mocha = require('selenium-webdriver/testing');
 var assert = require('assert');
 
-mocha.describe('Atom tests suit', function() {
-    this.timeout(1000000);
+mocha.describe('Atom - Release to pick for pickup menu', function() {
+    this.timeout(100000);
     mocha.it('works', function() {
 
         var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.firefox()).build();
         driver.manage().timeouts().implicitlyWait(4000);
         driver.manage().window().maximize();
 
-
+        console.log('');
+        console.log('Running Release to pick for pickup menu');
+        console.log('');
 
 //Getting instance of Date and storing in @param 'tday'
         var tday = new Date();
@@ -44,12 +45,9 @@ mocha.describe('Atom tests suit', function() {
 //Opens The Set Url in Atom array above
         driver.get(Atom.url);
 
-//Clears Logfile specified above in Atom Array
-        //fs.truncate(Atom.log, 0);
-
 //Login with credentials
-        driver.findElement(webdriver.By.id("UserLogin_username")).sendKeys("Marcellus");
-        driver.findElement(webdriver.By.id("UserLogin_password")).sendKeys("marcellus");
+        driver.findElement(webdriver.By.id("UserLogin_username")).sendKeys("admin");
+        driver.findElement(webdriver.By.id("UserLogin_password")).sendKeys("atom");
         driver.findElement(webdriver.By.name('yt0')).click();
 
 
@@ -61,7 +59,6 @@ mocha.describe('Atom tests suit', function() {
                 {
                     console.log("Login Was Successful");
                     console.log("Logged In At: " +tday);
-                    //fs.appendFile(Atom.log, "\nLogged In At: " +tday +"\nLogin was successful\n");
 
                     //Retrieve User Role
 
@@ -71,26 +68,21 @@ mocha.describe('Atom tests suit', function() {
                             if(Atom.user != null)
                             {
                                 console.log("\nLogged into " +Atom.user);
-                                //fs.appendFile(Atom.log,tday +"\n" +Atom.user +"\nAVAILABLE MENUS:\n");
                             }
                             else
                             {
                                 console.log("User role not set");
-                                //fs.appendFile(Atom.log, "User Role Not Set");
                             }
                         });
                     },6000).addErrback(function(e) {
                         // |e| could be any error thrown inside the driver.call(function) block)
                         console.log("Role Element Not Found");
-                        //fs.appendFile(Atom.log, "\nROLE ELEMENT NOT FOUND\n");
+                        console.log(e);
                     });
+
                     //Click Warehouse orders Menu
                     driver.findElement(webdriver.By.id('menu-pickupordermanager')).click();
 
-
-                    //Click Verified DC Tab
-                    console.log("Clicking Verified DC Tab...");
-                    //driver.findElement(webdriver.By.id('nav_verified')).click();
 
                     //Build id for checkbox
                     driver.executeScript("return jQuery('#table_pick_ticket tbody tr').first().attr('order-id')")
@@ -100,10 +92,19 @@ mocha.describe('Atom tests suit', function() {
                             return row;
                         });
                     driver.wait(function(){
+                        if(order_id===null)
+                        {
+                            console.log("No orders to release");
+                            return true;
+                        }
+                        else
+                        {
+                        driver.wait(function(){
 
                         //use order_id to build checkbox id
                         checkbox ="chk_"+order_id;
                         rtp_btn ="rel_to_pik_btn_"+order_id;
+
                         //click away by id
                         driver.findElement(webdriver.By.id(checkbox)).click();
                         driver.findElement(webdriver.By.id(rtp_btn)).click();
@@ -138,8 +139,6 @@ mocha.describe('Atom tests suit', function() {
                                                             assert(msg===null);
                                                             console.log('Release to pick was successful!');
                                                         }
-
-                                                        //assert(msg===null);
                                                     });
                                                 return true;
                                             },15000);
@@ -160,6 +159,9 @@ mocha.describe('Atom tests suit', function() {
                             });
                         return true;
                     },20000);
+
+                   }return true;
+                    },5000);
                     console.log("Logging Out...");
                     driver.findElement(webdriver.By.id('logout')).click();
                 }

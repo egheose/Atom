@@ -20,7 +20,7 @@ var webdriver = require('selenium-webdriver');
 var mocha = require('selenium-webdriver/testing');
 var assert = require('assert');
 
-mocha.describe('Atom Tests Suite', function() {
+mocha.describe('Atom - Login/Logout', function() {
     this.timeout(10000000);
     mocha.it('works', function() {
 
@@ -28,6 +28,9 @@ var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.fir
 driver.manage().timeouts().implicitlyWait(4000);
 driver.manage().window().maximize();
 
+        console.log('');
+        console.log('Running Login/Logout script');
+        console.log('');
 
 //Getting instance of Date and storing in @param 'tday'
 var tday = new Date();
